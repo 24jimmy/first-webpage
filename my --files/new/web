@@ -1,0 +1,48 @@
+from flask import Flask, render_template, request, redirect
+
+app = Flask(__name__)
+
+# Sample data for the website
+name = "John Doe"
+bio = "I'm a web developer with a passion for coding."
+projects = [
+    {
+        'title': 'Project 1',
+        'description': 'This is the first project I completed.',
+        'image': 'project1.jpg'
+    },
+    {
+        'title': 'Project 2',
+        'description': 'This is the second project I completed.',
+        'image': 'project2.jpg'
+    },
+    {
+        'title': 'Project 3',
+        'description': 'This is the third project I completed.',
+        'image': 'project3.jpg'
+    }
+]
+
+@app.route('/')
+def home():
+    return render_template('index.html', name=name, bio=bio, projects=projects)
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        # Process the contact form submission
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+
+        # Here you can perform any necessary actions with the submitted form data
+
+        return redirect('/success')  # Redirect to a success page after form submission
+    return render_template('contact.html')
+
+@app.route('/success')
+def success():
+    return render_template('success.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
